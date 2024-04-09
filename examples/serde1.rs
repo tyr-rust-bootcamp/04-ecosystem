@@ -115,12 +115,8 @@ fn encrypt(data: &[u8]) -> Result<String> {
     let cipher = ChaCha20Poly1305::new(KEY.into());
     let nonce = ChaCha20Poly1305::generate_nonce(&mut OsRng); // 96-bits; unique per message
     let ciphertext = cipher.encrypt(&nonce, data).unwrap();
-    let nonce_cypertext: Vec<_> = nonce
-        .to_vec()
-        .into_iter()
-        .chain(ciphertext.into_iter())
-        .collect();
-    let encoded = URL_SAFE_NO_PAD.encode(&nonce_cypertext);
+    let nonce_cypertext: Vec<_> = nonce.iter().copied().chain(ciphertext).collect();
+    let encoded = URL_SAFE_NO_PAD.encode(nonce_cypertext);
     Ok(encoded)
 }
 
@@ -128,7 +124,7 @@ fn encrypt(data: &[u8]) -> Result<String> {
 fn decrypt(encoded: &str) -> Result<Vec<u8>> {
     let decoded = URL_SAFE_NO_PAD.decode(encoded.as_bytes())?;
     let cipher = ChaCha20Poly1305::new(KEY.into());
-    let nonce = decoded[..12].try_into().unwrap();
+    let nonce = decoded[..12].into();
     let decrypted = cipher.decrypt(nonce, &decoded[12..]).unwrap();
     Ok(decrypted)
 }
