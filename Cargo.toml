@@ -7,12 +7,14 @@ edition = "2021"
 
 [dependencies]
 anyhow = "1.0.81"
+chacha20poly1305 = "0.10.1"
 chrono = { version = "0.4.37", features = ["serde"] }
 opentelemetry = "0.22.0"
 opentelemetry-otlp = { version = "0.15.0", features = ["tonic"] }
 opentelemetry_sdk = { version = "0.22.1", features = ["rt-tokio"] }
 serde = { version = "1.0.197", features = ["derive"] }
 serde_json = "1.0.115"
+serde_with = "3.7.0"
 thiserror = "1.0.58"
 tracing = "0.1.40"
 tracing-appender = "0.2.3"
@@ -21,8 +23,10 @@ tracing-subscriber = { version = "0.3.18", features = ["env-filter"] }
 
 [dev-dependencies]
 axum = { version = "0.7.5", features = ["http2", "query", "tracing"] }
+base64 = "0.22.0"
 derive_builder = "0.20.0"
 derive_more = "0.99.17"
+http = "1.1.0"
 serde = { version = "1.0.197", features = ["derive"] }
 serde_json = "1.0.115"
 strum = { version = "0.26.2", features = ["derive"] }
