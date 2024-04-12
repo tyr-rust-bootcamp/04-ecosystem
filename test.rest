@@ -12,9 +12,9 @@ Content-Type: application/json
 
 ### invalid request
 
-PATCH http://localhost:8080/
+PATCH http://localhost:8081/
 Content-Type: application/json
 
 {
-  "skills": "Rust"
+  "skills": ["Rust"]
 }
