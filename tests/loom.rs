@@ -9,7 +9,7 @@ fn buggy_concurrent_inc() {
     loom::model(|| {
         let num = Arc::new(AtomicUsize::new(0));
 
-        let ths: Vec<_> = (0..2)
+        let handles: Vec<_> = (0..2)
             .map(|_| {
                 let num = num.clone();
                 thread::spawn(move || {
@@ -23,8 +23,8 @@ fn buggy_concurrent_inc() {
             })
             .collect();
 
-        for th in ths {
-            th.join().unwrap();
+        for h in handles {
+            h.join().unwrap();
         }
 
         assert_eq!(2, num.load(Relaxed));
